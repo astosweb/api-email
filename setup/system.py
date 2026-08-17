@@ -64,7 +64,8 @@ def check_requirements(ctx: SetupContext) -> None:
 
     mem_kb = _read_mem_total_kb()
     if mem_kb and mem_kb < MIN_RAM_GB * 1024 * 1024:
-        log_warn(f'Low memory: {mem_kb // (1024*1024)}GB (recommended {MIN_RAM_GB}GB+)', ctx)
+        mem_gb = mem_kb / (1024 * 1024)
+        log_warn(f'Low memory: {mem_gb:.1f}GB (recommended {MIN_RAM_GB}GB+)', ctx)
 
     disk_gb = _free_disk_gb('/')
     if disk_gb and disk_gb < MIN_DISK_GB:
@@ -101,8 +102,9 @@ def prepare_system(ctx: SetupContext) -> None:
 
     run_cmd(['apt-get', 'update', '-qq'], ctx)
     run_cmd(
-        ['DEBIAN_FRONTEND=noninteractive', 'apt-get', 'install', '-y', '-qq'] + REQUIRED_PACKAGES,
+        ['apt-get', 'install', '-y', '-qq'] + REQUIRED_PACKAGES,
         ctx,
+        env={'DEBIAN_FRONTEND': 'noninteractive'},
     )
 
     if ctx.timezone and ctx.timezone != 'UTC':
