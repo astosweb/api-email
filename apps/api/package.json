@@ -1,0 +1,40 @@
+{
+  "name": "@api-email/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "dev": "nest start --watch",
+    "start": "node dist/main.js",
+    "start:prod": "node dist/main.js",
+    "seed": "tsx src/scripts/seed.ts",
+    "lint": "echo 'lint skipped'",
+    "test": "echo 'tests skipped'"
+  },
+  "dependencies": {
+    "@api-email/shared": "workspace:*",
+    "@nestjs/common": "^11.0.7",
+    "@nestjs/core": "^11.0.7",
+    "@nestjs/platform-express": "^11.0.7",
+    "@nestjs/swagger": "^11.0.3",
+    "@nestjs/terminus": "^11.0.0",
+    "@nestjs/bullmq": "^11.0.1",
+    "@prisma/client": "^6.3.1",
+    "bullmq": "^5.34.8",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "helmet": "^8.0.0",
+    "ioredis": "^5.4.2",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.2",
+    "@nestjs/schematics": "^11.0.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.7",
+    "prisma": "^6.3.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

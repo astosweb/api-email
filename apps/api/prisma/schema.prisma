@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  apiKeys   ApiKey[]
+  emails    Email[]
+}
+
+model ApiKey {
+  id        String   @id @default(cuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name      String
+  keyHash   String   @unique
+  prefix    String
+  lastUsed  DateTime?
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([keyHash])
+}
+
+model Email {
+  id             String       @id @default(cuid())
+  tenantId       String
+  tenant         Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  idempotencyKey String?
+  from           String
+  to             String[]
+  cc             String[]     @default([])
+  bcc            String[]     @default([])
+  subject        String
+  html           String?
+  text           String?
+  replyTo        String?
+  tags           String[]     @default([])
+  metadata       Json?
+  status         String       @default("queued")
+  errorMessage   String?
+  smtpMessageId  String?
+  queuedAt       DateTime     @default(now())
+  sentAt         DateTime?
+  deliveredAt    DateTime?
+  failedAt       DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  events         EmailEvent[]
+
+  @@unique([tenantId, idempotencyKey])
+  @@index([tenantId, status])
+  @@index([status, queuedAt])
+}
+
+model EmailEvent {
+  id        String   @id @default(cuid())
+  emailId   String
+  email     Email    @relation(fields: [emailId], references: [id], onDelete: Cascade)
+  type      String
+  message   String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([emailId, createdAt])
+}
