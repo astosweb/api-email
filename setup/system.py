@@ -117,7 +117,7 @@ def prepare_system(ctx: SetupContext) -> None:
 
 
 def _packages_installed() -> bool:
-    return all(command_exists('curl') and command_exists('ufw') and command_exists('postfix'))
+    return all(command_exists(cmd) for cmd in ('curl', 'ufw', 'postfix'))
 
 
 def _configure_limits(ctx: SetupContext) -> None:
