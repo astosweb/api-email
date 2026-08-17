@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.next/
+out/
+build/
+*.tsbuildinfo
+
+# Environment & secrets
+.env
+.env.local
+.env.production
+.env.*.local
+*.pem
+*.key
+!infrastructure/**/*.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Runtime state (never commit)
+/var/lib/yourapp/
+setup-state/
+
+# DKIM private keys
+infrastructure/opendkim/keys/
+infrastructure/dkim/keys/
+
+# Backups
+backups/
+*.sql.gz
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Prisma
+apps/api/prisma/*.db
+apps/api/prisma/*.db-journal

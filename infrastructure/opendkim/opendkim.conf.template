@@ -1,0 +1,19 @@
+# OpenDKIM configuration template
+Syslog yes
+SyslogSuccess yes
+LogWhy yes
+Canonicalization relaxed/simple
+Mode sv
+SubDomains no
+AutoRestart yes
+AutoRestartRate 10/1h
+UMask 002
+UserID opendkim
+Socket inet:8891@localhost
+PidFile /run/opendkim/opendkim.pid
+OversignHeaders From
+TrustAnchorFile /usr/share/dns/root.key
+
+KeyFile {{DKIM_PRIVATE_KEY}}
+Selector {{DKIM_SELECTOR}}
+Domain {{DOMAIN}}

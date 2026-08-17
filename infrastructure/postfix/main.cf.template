@@ -1,0 +1,39 @@
+# Postfix main.cf template - populated by setup.py
+# See setup/postfix.py
+
+myhostname = {{SMTP_HOSTNAME}}
+mydomain = {{DOMAIN}}
+myorigin = $mydomain
+inet_interfaces = all
+inet_protocols = ipv4
+mydestination =
+relayhost =
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.16.0.0/12 10.0.0.0/8
+smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
+smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination
+smtpd_helo_required = yes
+smtpd_helo_restrictions = permit_mynetworks, reject_invalid_helo_hostname, reject_non_fqdn_helo_hostname, permit
+disable_vrfy_command = yes
+smtpd_tls_cert_file = {{TLS_CERT}}
+smtpd_tls_key_file = {{TLS_KEY}}
+smtpd_tls_security_level = may
+smtp_tls_security_level = may
+smtpd_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
+smtp_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
+smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
+message_size_limit = 26214400
+default_process_limit = 100
+smtpd_client_connection_count_limit = 50
+smtpd_client_connection_rate_limit = 30
+smtpd_client_message_rate_limit = 30
+smtpd_client_recipient_rate_limit = 30
+smtpd_client_event_limit_exceptions = $mynetworks
+queue_run_delay = 300s
+minimal_backoff_time = 300s
+maximal_backoff_time = 4000s
+maximal_queue_lifetime = 5d
+bounce_queue_lifetime = 5d
+milter_default_action = accept
+milter_protocol = 6
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = inet:localhost:8891
